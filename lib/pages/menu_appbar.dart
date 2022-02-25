@@ -60,6 +60,7 @@ class MenuAppBarPage extends StatelessWidget {
                   padding: EdgeInsets.all(8.0),
                     child: Text(
                       '2020. All rights reserved to Mobcar.',
+                      textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 14.0,

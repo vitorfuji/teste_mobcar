@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MenuItemHomepage extends StatelessWidget {
-  const MenuItemHomepage({Key? key}) : super(key: key);
-
+  const MenuItemHomepage({Key? key, this.letterSpacing}) : super(key: key);
+  final double? letterSpacing;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -12,6 +12,8 @@ class MenuItemHomepage extends StatelessWidget {
         child: Text(
           'Homepage',
           style: TextStyle(
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
             color: Colors.lightBlue[500],
             fontSize: 18.0,
           ),

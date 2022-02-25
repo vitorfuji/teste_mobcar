@@ -12,6 +12,8 @@ class MenuItem extends StatelessWidget {
         child: Text(
           'Menu item',
           style: TextStyle(
+            letterSpacing: 2,
+            fontWeight: FontWeight.bold,
             color: Colors.white,
             fontSize: 18.0,
           ),

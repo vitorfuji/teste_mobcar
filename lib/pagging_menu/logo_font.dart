@@ -8,6 +8,7 @@ class LogoFont extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'MOBCAR',
+      textAlign: TextAlign.left,
       style: GoogleFonts.poppins(
         color: Colors.lightBlue[600],
         fontSize: 12.0,
