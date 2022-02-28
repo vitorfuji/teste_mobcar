@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:footer/footer.dart';
+import 'package:footer/footer_view.dart';
 import 'package:mobcar/api/api_cars.dart';
 import 'package:mobcar/pages/menu_appbar.dart';
 import 'package:mobcar/pagging_menu/logo_font.dart';
@@ -205,32 +207,33 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-          Positioned(
-            bottom: 16.0,
-            left: 75.0,
-            right: 36.0,
-            child: SizedBox(
-              width: double.infinity,
-              child: Row(
-                children: const [
-                  Icon(
-                    Icons.copyright,
-                    color: Colors.blue,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      '2020. All rights reserved to Mobcar.',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 14.0,
+          FooterView(
+            footer: Footer(
+              backgroundColor: Colors.black,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.copyright,
+                      color: Color.fromRGBO(0, 151, 208, 1),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(13.5),
+                      child: Text(
+                        '2020. All rights reserved to Mobcar.',
+                        style: TextStyle(
+                          color: Color.fromRGBO(0, 151, 208, 1),
+                          fontSize: 14.0,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
+            flex: 1, children: const[], //default flex is 2
           ),
         ],
       ),

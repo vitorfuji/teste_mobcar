@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobcar/pages/copyright_menu.dart';
 import 'package:mobcar/pages/home_page.dart';
 import 'package:mobcar/pagging_menu/logo_font.dart';
 import 'package:mobcar/pagging_menu/menu_item.dart';
@@ -23,7 +24,7 @@ class MenuAppBarPage extends StatelessWidget {
             icon: const Icon(
               Icons.menu_open,
             ),
-            color: Colors.lightBlue[600],
+            color: const Color.fromRGBO(0, 151, 208, 1),
             onPressed: () {
               Navigator.of(context, rootNavigator: true).push(
                 PageTransition(
@@ -46,30 +47,7 @@ class MenuAppBarPage extends StatelessWidget {
               height: double.infinity,
             ),
           ),
-          Positioned(
-            bottom: 16.0,
-            left: 75.0,
-            right: 36.0,
-            child: Row(
-              children: const [
-                Icon(
-                  Icons.copyright,
-                  color: Colors.blue,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      '2020. All rights reserved to Mobcar.',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          const CopyrightMenu(),
           ListView(
             children: const [
               MenuItemHomepage(),

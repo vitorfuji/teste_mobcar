@@ -5,8 +5,8 @@ class MenuItemHomepage extends StatelessWidget {
   final double? letterSpacing;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 0, right: 16.0),
+    return const Padding(
+      padding: EdgeInsets.only(top: 0, right: 16.0),
       child: Align(
         alignment: Alignment.topRight,
         child: Text(
@@ -14,7 +14,7 @@ class MenuItemHomepage extends StatelessWidget {
           style: TextStyle(
             letterSpacing: 2,
             fontWeight: FontWeight.bold,
-            color: Colors.lightBlue[500],
+            color: Color.fromRGBO(0, 151, 208, 1),
             fontSize: 18.0,
           ),
         ),

@@ -10,7 +10,7 @@ class LogoFont extends StatelessWidget {
       'MOBCAR',
       textAlign: TextAlign.left,
       style: GoogleFonts.poppins(
-        color: Colors.lightBlue[600],
+        color: const Color.fromRGBO(0, 151, 208, 1),
         fontSize: 12.0,
       ),
     );
