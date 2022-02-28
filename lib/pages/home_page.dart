@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:footer/footer.dart';
 import 'package:footer/footer_view.dart';
-import 'package:mobcar/api/api_cars.dart';
 import 'package:mobcar/pages/menu_appbar.dart';
 import 'package:mobcar/pagging_menu/logo_font.dart';
 import 'package:page_transition/page_transition.dart';
@@ -14,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final api = ApiCars();
   final items = ['Item 1, Item 2, Item 3, Item 4'];
 
   String? value;

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:footer/footer.dart';
-import 'package:footer/footer_view.dart';
 
 class Copyright extends StatefulWidget {
   const Copyright({Key? key}) : super(key: key);

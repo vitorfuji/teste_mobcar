@@ -11,7 +11,8 @@ void main() {
     ),
   );
 
-  runApp(const MobcarApp());
+  runApp(const MaterialApp(
+      home: HomePageTest()));
 }
 
 class MobcarApp extends StatelessWidget {
@@ -20,9 +21,11 @@ class MobcarApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return const MaterialApp(
-      // theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF000000)),
-      home: HomePageTest(),
+      home: Scaffold(
+       body: HomePageTest(),
+      )
     );
   }
 }

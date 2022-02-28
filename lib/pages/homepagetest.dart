@@ -19,75 +19,77 @@ class _HomePageTestState extends State<HomePageTest> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const LogoFont(),
-        backgroundColor: Colors.black,
-        automaticallyImplyLeading: false, //Return buttom
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.menu_open,
-            ),
-            color: Colors.lightBlue[600],
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).push(
-                PageTransition(
-                  child: const MenuAppBarPage(),
-                  type: PageTransitionType.rightToLeft,
-                  duration: const Duration(milliseconds: 450),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(1),
-        child: Column(
-          children: [
-            Row(
-              children: const [
-                Padding(
-                  padding: EdgeInsets.only(top: 16.0, left: 16.0),
-                  child: Text(
-                    'Title 1',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 2,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Row(
-                children: [
-                  const Text(
-                    'Title 2',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  Expanded(child: Container()),
-                  const AddNewButton(),
-                ],
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const LogoFont(),
+          backgroundColor: Colors.black,
+          automaticallyImplyLeading: false, //Return buttom
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.menu_open,
               ),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).push(
+                  PageTransition(
+                    child: const MenuAppBarPage(),
+                    type: PageTransitionType.rightToLeft,
+                    duration: const Duration(milliseconds: 450),
+                  ),
+                );
+              },
+              color: const Color.fromRGBO(0, 151, 208, 1),
             ),
           ],
         ),
+        body: Container(
+          padding: const EdgeInsets.all(1),
+          child: Column(
+            children: [
+              Row(
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.only(top: 16.0, left: 16.0),
+                    child: Text(
+                      'Title 1',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Title 2',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    const AddNewButton(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: const Copyright(),
       ),
-      bottomNavigationBar: const Copyright(),
     );
   }
 }
