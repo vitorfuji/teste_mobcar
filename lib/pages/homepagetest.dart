@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobcar/pages/addnew_button.dart';
 import 'package:mobcar/pages/copyright.dart';
 import 'package:mobcar/pages/menu_appbar.dart';
+import 'package:mobcar/pages/view_page.dart';
 import 'package:mobcar/pagging_menu/logo_font.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -85,9 +86,12 @@ class _HomePageTestState extends State<HomePageTest> {
                   ],
                 ),
               ),
+          ViewPage(),
             ],
           ),
+
         ),
+
         bottomNavigationBar: const Copyright(),
       ),
     );

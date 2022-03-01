@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddNewButton extends StatefulWidget {
   const AddNewButton({Key? key}) : super(key: key);
@@ -8,9 +11,63 @@ class AddNewButton extends StatefulWidget {
 }
 
 class _AddNewButtonState extends State<AddNewButton> {
-  final items = ['Item 1, Item 2, Item 3, Item 4'];
 
-  String? value;
+  var marcaSelecionada;
+  var modeloSelecionado;
+
+  Future getMarcas() async {
+    final response = await http
+        .get(Uri.parse('https://parallelum.com.br/fipe/api/v1/carros/marcas'));
+
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      List<Marca> marcas = [];
+
+      for (var u in jsonData) {
+        Marca marca = Marca(
+          u['nome'],
+          u['codigo'],
+        );
+        marcas.add(marca);
+      }
+      // setState(() {
+      //   marcaSelecionada = marcas[0].codigo;
+      // });
+
+      return marcas;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load MARCAS');
+    }
+  }
+
+  Future getModelos(String codigoCarro) async {
+    final response = await http
+        .get(Uri.parse('https://parallelum.com.br/fipe/api/v1/carros/marcas/$codigoCarro/modelos'));
+
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      List<Modelo> modelos = [];
+
+      for (var u in jsonData['modelos']) {
+
+        Modelo modelo = Modelo(
+          u['nome'],
+          u['codigo'].toString(),
+        );
+        modelos.add(modelo);
+      }
+      // setState(() {
+      //   modeloSelecionado = modelos[0].codigo;
+      // });
+      return modelos;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load MODELOS');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +94,7 @@ class _AddNewButtonState extends State<AddNewButton> {
               fontSize: 12.0,
             ),
           ),
+
           onPressed: () {
             showDialog(
               context: context,
@@ -44,6 +102,7 @@ class _AddNewButtonState extends State<AddNewButton> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       IconButton(
                         iconSize: 25.0,
@@ -68,7 +127,7 @@ class _AddNewButtonState extends State<AddNewButton> {
                   actions: [
                     Padding(
                       padding: const EdgeInsets.only(
-                          bottom: 24, left: 24, right: 24),
+                          bottom: 5, left: 5, right: 5),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(
                           12.0,
@@ -78,36 +137,114 @@ class _AddNewButtonState extends State<AddNewButton> {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 30,
-                      margin: const EdgeInsets.all(16),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          8,
-                        ),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: value,
-                          iconSize: 24,
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black,
-                          ),
-                          isExpanded: true,
-                          items: items.map(buildMenuItem).toList(),
-                          onChanged: (value) =>
-                              setState(() => this.value = value),
-                        ),
+                    DropdownButtonHideUnderline(
+                      child:FutureBuilder(
+                                future: getMarcas(),
+                                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                          left: 16.0,
+                                          right: 16.0,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.black, width: 1),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                        ),
+                                        child: DropdownButton<String>(
+                                          hint: Text(marcaSelecionada ?? 'Marca'),
+                                          value: marcaSelecionada,
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          iconSize: 32,
+                                          isExpanded: true,
+                                          underline: const SizedBox(),
+                                          style: const TextStyle(
+                                            color: Color.fromRGBO(109, 109, 109, 1),
+                                            fontSize: 14.0,
+                                          ),
+                                          items: snapshot.data.map<DropdownMenuItem<String>>((carro) {
+                                            return DropdownMenuItem<String>(
+                                              value: carro.codigo,
+                                              child: Text(carro.nome),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              marcaSelecionada = value;
+                                              getModelos(value!);
+
+                                            });
+                                          },
+
+                                        ),
+
+                                      ),
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: Text('Carregando...'),
+                                    );
+                                  }
+                                },
+
                       ),
                     ),
+                    // DropdownButtonHideUnderline(
+                    //   child: Builder(
+                    //     builder: (context) {
+                    //       return FutureBuilder(
+                    //         future: getModelos(marcaSelecionada),
+                    //         builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    //           if (snapshot.hasData) {
+                    //             return Padding(
+                    //               padding: const EdgeInsets.all(16.0),
+                    //               child: Container(
+                    //                 padding: const EdgeInsets.only(
+                    //                   left: 16.0,
+                    //                   right: 16.0,
+                    //                 ),
+                    //                 decoration: BoxDecoration(
+                    //                   border: Border.all(color: Colors.black, width: 1),
+                    //                   borderRadius: BorderRadius.circular(8.0),
+                    //                 ),
+                    //                 child: DropdownButton<String>(
+                    //                   value: modeloSelecionado,
+                    //                   hint: Text(snapshot.data[0].nome ?? '1'),
+                    //                   icon: Icon(Icons.arrow_drop_down),
+                    //                   iconSize: 32,
+                    //                   isExpanded: true,
+                    //                   underline: const SizedBox(),
+                    //                   style: const TextStyle(
+                    //                     color: Color.fromRGBO(109, 109, 109, 1),
+                    //                     fontSize: 14.0,
+                    //                   ),
+                    //                   items: snapshot.data.map<DropdownMenuItem<String>>((modelo) {
+                    //                     return DropdownMenuItem<String>(
+                    //                       value: modelo.codigo,
+                    //                       child: Text(modelo.nome),
+                    //                     );
+                    //                   }).toList(),
+                    //                   onChanged: (value) {
+                    //                     setState(() {
+                    //                       modeloSelecionado = value;
+                    //                       getModelos(value!);
+                    //                     });
+                    //                   },
+                    //                 ),
+                    //               ),
+                    //             );
+                    //           } else {
+                    //             return const Center(
+                    //               child: Text('Carregando...'),
+                    //             );
+                    //           }
+                    //         },
+                    //       );
+                    //     }
+                    //   ),
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -141,8 +278,9 @@ class _AddNewButtonState extends State<AddNewButton> {
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                               ),
-                              backgroundColor: MaterialStateProperty.resolveWith(
-                                  (states) => Colors.black),
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith(
+                                      (states) => Colors.black),
                             ),
                             child: const Text(
                               'Salvar',
@@ -164,12 +302,23 @@ class _AddNewButtonState extends State<AddNewButton> {
       ),
     );
   }
+}
 
-  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-        value: item,
-        child: Text(
-          item,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
-      );
+class Marca {
+  late final String nome, codigo;
+
+  Marca(
+    this.nome,
+    this.codigo,
+  );
+}
+
+class Modelo {
+  late final String nome;
+  late final String codigo;
+
+  Modelo(
+    this.nome,
+    this.codigo,
+    );
 }
